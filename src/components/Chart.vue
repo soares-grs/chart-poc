@@ -4,17 +4,30 @@
 
 <script setup>
 import { Chart } from 'chart.js/auto';
-import { onMounted } from 'vue';
+import { onMounted, ref } from 'vue';
+import { injector } from "../utils/injector"
 
 
 const props = defineProps(["data","labels","type"]);
+let charactereArray = ref([])
 
 const mockedData = {
     data1: [ 12, 19, 3, 5, 2, 3 ],
     data2: [ 22, 80, 3, 5, 10, 2 ],
 }
 
+async function getAllCharactere(page){
+    let response = await injector.characters.get(page)
+
+    if(response.data.info.next){
+        charactereArray.value = charactereArray.value.concat(response.data.results);
+        console.log(charactereArray.value)
+        getAllCharactere(page+1)
+    }
+} 
+
 onMounted(async () => {
+    getAllCharactere(1);
     const ctx = document.getElementById('myChart')
 
     new Chart(ctx, {
