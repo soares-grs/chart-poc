@@ -10,8 +10,7 @@ import { onMounted } from 'vue';
 const props = defineProps(["data","labels","type"]);
 
 const mockedData = {
-    data1: [ 12, 19, 3, 5, 2, 3 ],
-    data2: [ 22, 80, 3, 5, 10, 2 ],
+    data1: [ 99, 1 ],
 }
 
 onMounted(async () => {
@@ -20,26 +19,18 @@ onMounted(async () => {
     new Chart(ctx, {
         type: 'doughnut',
         data: {
-            labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+            labels: ['Deu certo', 'Deu ruim'],
             datasets: [
                 {
-                label: 'First Label',
+                backgroundColor:[ 'green', 'red'],
+                label: 'Load',
                 data: mockedData.data1,
-                borderWidth: 1
-                },
-                {
-                label: 'Second Label',
-                data:  mockedData.data2,
-                borderWidth: 1
+                borderWidth: 0
                 },
         ]
         },
         options: {
-            scales: {
-                y: {
-                    beginAtZero: true
-                }
-            }
+            cutout: 220
         }
     });
 })
